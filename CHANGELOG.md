@@ -35,6 +35,21 @@ breaking changes bump the **minor** version, and they are called out as such.
   `signatures::canonical_message` is pinned byte-for-byte against the documented
   layout, including that the signer mask is part of the signed bytes. No contract
   behaviour change.
+- **`governance` (issue #696): tests for `burn`, the ragequit path and constructor error variants.**
+  Extended `contracts/governance/tests/receipt_anchor_admin.rs` with client-driven
+  integration tests for the previously untested public surface:
+  `LiquidStaking::burn` is asserted to redeem locked underlying at the current
+  exchange rate after the lock epoch and publish one `Burn` event, and to answer
+  a zero amount or premature redemption with the typed error variant;
+  `ragequit::is_approved` gates on the proposal's quorum so `ragequit::process`
+  refuses a dissenter's exit with `ProposalNotApproved` and rejects a member who
+  voted yes; and the constructor surfaces `ArityMismatch` for a length mismatch
+  and `InvalidMembers` for an invalid member set. No contract behaviour change.
+- **`governance` (issue #552): test instance storage TTL eviction returns typed errors.**
+  Added tests in `contracts/governance/src/test.rs` asserting that `propose` and
+  `execute` operations return typed errors `InvalidVotingPeriod` and `InvalidMembers`
+  rather than panicking when instance storage TTL expires or mandatory config keys
+  are missing from instance storage.
 - **`ci` (issue #584): align Tier B budget-report comment with live `--check` enforcement.**
   The `.github/workflows/ci.yml` Tier B step comment and the `budget.toml`
   provenance header now accurately describe that `cargo budget-report --check`
