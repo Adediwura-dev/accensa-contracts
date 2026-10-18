@@ -8,6 +8,33 @@ breaking changes bump the **minor** version, and they are called out as such.
 
 ## [Unreleased]
 
+- **`cross-chain` (issue #695): tests for `execute_withdrawal_to_evm`, `get_destination_chain_id` and `is_trusted_peer`.**
+  Extended `contracts/cross-chain/src/wormhole_test.rs` with tests that name and
+  drive three previously untested public functions:
+  `outbound::execute_withdrawal_to_evm` is asserted to burn the wrapped asset and
+  return the exact `OutboundBridgePayload`, and to reject zero/negative amounts
+  with the typed `Error::InvalidAmount`; `get_destination_chain_id` returns the
+  configured chain id and `Error::NotInitialized` when unset; and
+  `is_trusted_peer` reflects `set_trusted_peer` registration, keyed on both the
+  source chain id and the sender. No contract behaviour change.
+- **`receipt-anchor` (issue #698): tests for `verify_batch_zk_proof`, `fold_proof` and `get_min_anchor_interval`.**
+  Extended `contracts/receipt-anchor/src/fuzz_test.rs` with tests that name and
+  drive three previously untested public functions:
+  `zk_verifier::verify_batch_zk_proof` is asserted to reject zero-count, empty,
+  short and all-zero-component proofs while accepting a well-formed one;
+  `merkle::fold_proof` is pinned to return the leaf for an empty proof and the
+  sorted-pair hash at each level otherwise; and
+  `ReceiptAnchor::get_min_anchor_interval` is read before and after
+  `set_min_anchor_interval`. No contract behaviour change.
+- **`receipt-anchor` (issue #697): tests for `topic`, `publish` and `canonical_message`.**
+  Extended `contracts/receipt-anchor/src/budget_test.rs` with tests that name and
+  drive the three previously untested public functions in the canonical event
+  schema: `ReceiptAction::topic` is asserted for both arms, `events::publish` is
+  asserted to emit the exact `(receipt, action, anchor_id)` topic tuple and
+  payload data for the anchor and prune actions, and
+  `signatures::canonical_message` is pinned byte-for-byte against the documented
+  layout, including that the signer mask is part of the signed bytes. No contract
+  behaviour change.
 - **`ci` (issue #584): align Tier B budget-report comment with live `--check` enforcement.**
   The `.github/workflows/ci.yml` Tier B step comment and the `budget.toml`
   provenance header now accurately describe that `cargo budget-report --check`
