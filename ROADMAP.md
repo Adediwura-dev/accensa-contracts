@@ -173,6 +173,14 @@
 
 ## Issue #687: walk the fee ladder in `tier_for_volume` without indexing
 
+- [x] Route both `recall_principal` sums through `add_amounts` (#723)
+  - `contracts/refund-vault/src/strategy.rs` — typed `Error::MathOverflow` instead of a host abort
+  - `contracts/refund-vault/src/recall_principal_overflow_tests.rs` — boundary tests drive both sums to `i128::MAX`
+
+## Issue #779: rustdoc for `ShardCreatedEvent`'s 5 exported fields
+
+- [x] Document `shard_id`, `shard_index`, `shard_address`, `start_batch_id` and `end_batch_id` (#779)
+  - `contracts/receipt-anchor/src/lib.rs` — doc comments only; struct layout, field types and topic tuple unchanged
 - [x] Iterate the ladder in `tier_for_volume` instead of `ladder.get(i).unwrap()` (#687)
   - `contracts/refund-vault/src/tiers.rs` — enumerated iteration, no trap path, unchanged behaviour
 

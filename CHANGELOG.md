@@ -28,6 +28,13 @@ exception: while the project is below `1.0.0`, breaking changes bump the
 - **Internal tests (#655, #657):** Pinned the treasury vesting event shapes and the reputation SBT authority gate on `issue`, `revoke` and `slash`.
 - **Documentation (#756, #757, #761, #762):** Documented granular event payload fields and refund-vault APIs.
 
+- **`receipt-anchor` (issue #779): document `ShardCreatedEvent`'s exported
+  fields.** `contracts/receipt-anchor/src/lib.rs` now carries a `///` comment
+  on each of `shard_id`, `shard_index`, `shard_address`, `start_batch_id` and
+  `end_batch_id`, stating the value's domain and the code path that writes it
+  so an off-chain decoder can read the event without inferring either from the
+  field name. Doc comments only — struct layout, field types and the topic
+  tuple are unchanged.
 - **`oracle` (issue #652): pin the admin getter and the round staleness bound.** New
   `staleness_test` module in `contracts/oracle/src/staleness_test.rs`, registered
   with a single `mod staleness_test;` line, asserting `get_admin` returns `None`
