@@ -118,6 +118,12 @@
   - `contracts/refund-vault/src/settlement.rs` — typed `Error::MathOverflow` instead of a host abort
   - `contracts/refund-vault/src/preview_settlement_overflow_tests.rs` — boundary test pins both operands at `i128::MAX` and asserts the returned error variant
 
+## Issue #741: rustdoc for refund-vault-factory/lib's 7 public items
+
+- [x] Document `Error`, `RefundVaultFactory`, `get_admin`, `get_vault_wasm`, `get_time_policy_contract`, `get_vdf_policy_contract` and `get_next_salt` (#741)
+  - `contracts/refund-vault-factory/src/lib.rs` — doc comments only, no signature, body or ordering change
+
+
 ## Issue #740: rustdoc for `common/events`' 8 module symbols
 
 - [x] Document `vault`, `channel`, `receipt`, `bridge`, `gov`, `treasury`, `multisig` and `auth` (#740)
