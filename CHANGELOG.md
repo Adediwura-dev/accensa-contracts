@@ -28,6 +28,9 @@ exception: while the project is below `1.0.0`, breaking changes bump the
 - **Internal tests (#655, #657):** Pinned the treasury vesting event shapes and the reputation SBT authority gate on `issue`, `revoke` and `slash`.
 - **Documentation (#756, #757, #761, #762):** Documented granular event payload fields and refund-vault APIs.
 
+- **`multisig-account` / `refund-vault` (issues #592, #593): pin verify_ed25519 trap semantics and refund-vault config getters.**
+  Added unit test coverage for `verify_ed25519` in `contracts/multisig-account/src/test.rs`, asserting that valid signatures return normally, malleated non-canonical `s` scalar signatures return typed `Error::NonCanonicalSignature`, and invalid signatures trap the host VM (`Err(Err(_))`). Extended `contracts/refund-vault/src/test.rs` to exercise unexercised config getters (`get_admin`, `get_token`, `get_refund_window`, and `is_paused`), verifying configured values, pause/unpause boolean transitions, and `Error::NotInitialized` when called on an uninitialized instance. Test-only — no contract behavior changes.
+
 - **`receipt-anchor` (issue #779): document `ShardCreatedEvent`'s exported
   fields.** `contracts/receipt-anchor/src/lib.rs` now carries a `///` comment
   on each of `shard_id`, `shard_index`, `shard_address`, `start_batch_id` and
